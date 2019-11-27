@@ -19,6 +19,11 @@ const asObject = (anecdote) => {
 
 const initialState = anecdotesAtStart.map(asObject);
 
+
+const sortByVotes= (initiallArr)=> {
+  return initiallArr.sort((a, b) => a.votes -b.votes);
+}
+
 const reducer = (state = initialState, action) => {
   //console.log('state now: ', state)
   //console.log('action', action)
@@ -32,12 +37,13 @@ const reducer = (state = initialState, action) => {
         ...anecdoteToChange,
         votes: anecdoteToChange.votes + 1
       }
-  
-      return state.map(anecdote => 
+      const allAnecdotes = state.map(anecdote => 
         anecdote.id !== id? anecdote: changedAnecdote);
+  
+      return sortByVotes(allAnecdotes);
     case 'NEW_ANECDOTE':
       console.log('new content ---->', action.data.content);
-      return [...state, action.data]
+      return sortByVotes([...state, action.data]);
     default:
       break;
   }
