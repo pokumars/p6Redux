@@ -1,40 +1,16 @@
 import React from 'react';
-import { addVote, createAnecdote } from './reducers/anecdoteReducer';
 import AnecdoteForm from './components/AnecdoteForm';
+import AnecdoteList from './components/AnecdoteList';
+
 
 const App = (props) => {
   const store = props.store
-  const anecdotes =store.getState()
-
-  const vote = (id) => {
-    store.dispatch(addVote(id));
-  }
-
-  const create = (event) => {
-    event.preventDefault();
-    const content = event.target.newAnecdote.value;
-    console.log(content)
-    store.dispatch(createAnecdote(content));
-    event.target.newAnecdote.value = '';
-  }
-
-
   return (
     <div>
       <h2>Anecdotes</h2>
-      {anecdotes.map(anecdote =>
-        <div key={anecdote.id}>
-          <div>
-            {anecdote.content}
-          </div>
-          <div>
-            has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
-          </div>
-        </div>
-      )}
+      <AnecdoteList store={store}/>
       <h2>create new</h2>
-      <AnecdoteForm createHandler= {create}/>
+      <AnecdoteForm store={store} />
     </div>
   )
 }
