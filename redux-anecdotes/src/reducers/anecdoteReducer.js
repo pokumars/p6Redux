@@ -21,7 +21,7 @@ const initialState = anecdotesAtStart.map(asObject);
 
 
 const sortByVotes= (initiallArr)=> {
-  return initiallArr.sort((a, b) => a.votes -b.votes);
+  return initiallArr.sort((a, b) => b.votes -a.votes);
 }
 
 const reducer = (state = initialState, action) => {
