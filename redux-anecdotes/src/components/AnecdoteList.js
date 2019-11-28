@@ -1,32 +1,29 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { addVote } from '../reducers/anecdoteReducer';
-import { notifyShort } from '../reducers/notificationReducer';
+import { createNotification, removeNotification } from '../reducers/notificationReducer'
+
 
 
 
 const AnecdoteList = (props) => {
-  const store = props.store
-  const { anecdotes, notification, filter } =store.getState()
-
-  const filterAnecdotes = (arr, query) => {
-
-    return arr.filter((a) => {
-      //console.log(a.content.toLowerCase());
-      return a.content.toLowerCase().indexOf(query.toLowerCase()) !== -1
-    })
-  }
-
-  const filteredAnecdotes = filterAnecdotes(anecdotes, filter);
-
   const vote = (id) => {
-    store.dispatch(addVote(id));
-    const selectedAnecdote = anecdotes.find(a => a.id === id);
-    notifyShort(store, `you voted "${selectedAnecdote.content}"`);
+
+    const notify =(theMessage) => {
+      props.createNotification(theMessage)
+      setTimeout(() => {
+        props.removeNotification()
+      }, 5000)
+    }
+
+    props.addVote(id)
+    const selectedAnecdote = props.visibleAnecdotes.find(a => a.id === id);
+    notify(`you voted "${selectedAnecdote.content}"`)
   }
 
   return (
     <>
-    {filteredAnecdotes.map(anecdote =>
+    {props.visibleAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
@@ -42,5 +39,30 @@ const AnecdoteList = (props) => {
   )
 }
 
+const anecdotesToShow = ({ anecdotes,filter }) => {
+  const filterAnecdotes = (arr, query) => {
 
-export default AnecdoteList
+    return arr.filter((a) => {
+      //console.log(a.content.toLowerCase());
+      return a.content.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    })
+  }
+  
+  return filterAnecdotes(anecdotes, filter);
+}
+
+const mapDispatchToProps = {
+  addVote,
+  createNotification,
+  removeNotification
+}
+
+const mapStateToProps = (state) => {
+  return {
+    visibleAnecdotes : anecdotesToShow(state)
+  }
+}
+
+export default connect(
+  mapStateToProps, mapDispatchToProps
+  )(AnecdoteList);

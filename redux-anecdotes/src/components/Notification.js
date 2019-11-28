@@ -1,8 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux';
 
 const Notification = (props) => {
-  const { store } = props
-  const { notification, anecdotes} = store.getState()
+  //const { store } = props
+  const { notification, anecdotes} = props
 
   if (notification === null){
     return null;
@@ -22,4 +23,11 @@ const Notification = (props) => {
   )
 }
 
-export default Notification
+const mapStateToProps = (state) => {
+  return { 
+    notification: state.notification,
+    anecdotes: state.anecdotes
+  }
+}
+
+export default connect(mapStateToProps)(Notification)

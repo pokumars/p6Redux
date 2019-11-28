@@ -23,17 +23,19 @@ export const removeNotification = ()=> {
     notification: null
   }
 }
-export const notifyShort =(theStore, theMessage) => {
-  theStore.dispatch(createNotification(theMessage));
+export const notifyShort =(theMessage) => {
+  createNotification(theMessage)
   setTimeout(() => {
-    theStore.dispatch(removeNotification());
+    removeNotification()
   }, 2500)
 }
 
-export const notify =(theStore, theMessage) => {
-  theStore.dispatch(createNotification(theMessage));
+export const notify =(fxn, theMessage) => {
+  createNotification(theMessage)
   setTimeout(() => {
-    theStore.dispatch(removeNotification());
+    removeNotification()
   }, 5000)
 }
+
+
 export default notificationReducer;
