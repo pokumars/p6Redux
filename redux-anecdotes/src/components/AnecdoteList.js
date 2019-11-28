@@ -6,7 +6,17 @@ import { notifyShort } from '../reducers/notificationReducer';
 
 const AnecdoteList = (props) => {
   const store = props.store
-  const { anecdotes, notification } =store.getState()
+  const { anecdotes, notification, filter } =store.getState()
+
+  const filterAnecdotes = (arr, query) => {
+
+    return arr.filter((a) => {
+      //console.log(a.content.toLowerCase());
+      return a.content.toLowerCase().indexOf(query.toLowerCase()) !== -1
+    })
+  }
+
+  const filteredAnecdotes = filterAnecdotes(anecdotes, filter);
 
   const vote = (id) => {
     store.dispatch(addVote(id));
@@ -16,7 +26,7 @@ const AnecdoteList = (props) => {
 
   return (
     <>
-    {anecdotes.map(anecdote =>
+    {filteredAnecdotes.map(anecdote =>
         <div key={anecdote.id}>
           <div>
             {anecdote.content}
