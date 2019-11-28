@@ -24,13 +24,13 @@ const sortByVotes= (initiallArr)=> {
   return initiallArr.sort((a, b) => b.votes -a.votes);
 }
 
-const reducer = (state = initialState, action) => {
+const anecdoteReducer = (state = initialState, action) => {
   //console.log('state now: ', state)
   //console.log('action', action)
   //NEW_ANECDOTE
   switch (action.type) {
     case 'VOTE':
-      console.log('vote for ',action.data.id)
+      //console.log('vote for ',action.data.id)
       const id = action.data.id;
       const anecdoteToChange = state.find(a => a.id === id);
       const changedAnecdote ={
@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
   
       return sortByVotes(allAnecdotes);
     case 'NEW_ANECDOTE':
-      console.log('new content ---->', action.data.content);
+      //console.log('new content ---->', action.data.content);
       return sortByVotes([...state, action.data]);
     default:
       break;
@@ -73,4 +73,4 @@ export const createAnecdote = (content) => {
 
 
 
-export default reducer
+export default anecdoteReducer
