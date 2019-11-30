@@ -40,9 +40,12 @@ export const addVote = (id) => {
   }
 }
 export const createAnecdote = (content) => {
-  return {
-    type: 'NEW_ANECDOTE',
-    data: content
+  return async dispatch => {
+    const newAnecdote = await anecdoteService.createAnecdote(content)
+    dispatch( {
+      type: 'NEW_ANECDOTE',
+      data: newAnecdote
+    })
   }
 }
 
@@ -56,14 +59,6 @@ export const initialiseAnecdotes = () => {
   }
 }
 
-/*export const initialiseAnecdotes = (anecdotes) => {
-  return {
-    type: 'INIT_NOTES',
-    data: anecdotes
-  }
-}*/
-
-
 export default anecdoteReducer
 
 /**const anecdotesAtStart = [
@@ -73,16 +68,4 @@ export default anecdoteReducer
   'Any fool can write code that a computer can understand. Good programmers write code that humans can understand.',
   'Premature optimization is the root of all evil.',
   'Debugging is twice as hard as writing the code in the first place. Therefore, if you write the code as cleverly as possible, you are, by definition, not smart enough to debug it.'
-];
-
-const getId = () => (100000 * Math.random()).toFixed(0);
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
-}
-
-const initialState = anecdotesAtStart.map(asObject); */
+];*/

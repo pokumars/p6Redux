@@ -2,7 +2,6 @@ import React from 'react';
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { createNotification, removeNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux';
-import anecdoteService from '../services/anecdotes'
 
 
 
@@ -22,8 +21,7 @@ const AnecdoteForm = (props) => {
     event.target.newAnecdote.value = '';
     console.log('newAnecdote --->',content)
 
-    const freshAnecdote = await anecdoteService.createAnecdote(content);
-    props.createAnecdote(freshAnecdote)
+    props.createAnecdote(content)
 
     notify(`new anecdote "${content}" added`);    
   }
