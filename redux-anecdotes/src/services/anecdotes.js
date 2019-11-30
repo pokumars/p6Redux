@@ -8,7 +8,10 @@ const getAll = async () => {
 }
 
 const createAnecdote = async content => {
-  const response = await axios.post(baseUrl, content);
+  const object = { content, votes: 0}
+  console.log('object --->', object)
+  const response = await axios.post(baseUrl, object);
+  console.log('returned object --->', response.data)
   return response.data;
 }
 

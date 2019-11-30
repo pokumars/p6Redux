@@ -2,6 +2,7 @@ import React from 'react';
 import { createAnecdote } from '../reducers/anecdoteReducer'
 import { createNotification, removeNotification } from '../reducers/notificationReducer'
 import { connect } from 'react-redux';
+import anecdoteService from '../services/anecdotes'
 
 
 
@@ -13,14 +14,18 @@ const AnecdoteForm = (props) => {
     }, 5000)
   }
 
-  console.log(props)
+  //console.log(props)
 
-  const create = (event) => {
+  const create = async (event) => {
     event.preventDefault();
     const content = event.target.newAnecdote.value;
-    props.createAnecdote(content)
-    notify(`new anecdote "${content}" added`);
     event.target.newAnecdote.value = '';
+    console.log('newAnecdote --->',content)
+
+    const freshAnecdote = await anecdoteService.createAnecdote(content);
+    props.createAnecdote(freshAnecdote)
+
+    notify(`new anecdote "${content}" added`);    
   }
 
   return (
