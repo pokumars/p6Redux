@@ -8,7 +8,6 @@ import { createNotification, removeNotification } from '../reducers/notification
 
 const AnecdoteList = (props) => {
   const vote = (id) => {
-
     const notify =(theMessage) => {
       props.createNotification(theMessage)
       setTimeout(() => {

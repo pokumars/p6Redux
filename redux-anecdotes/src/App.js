@@ -12,8 +12,9 @@ const App = (props) => {
   
 
   useEffect(() =>{
-    anecdoteService.getAll()
-    .then(allAnecdotes => props.initialiseAnecdotes(allAnecdotes))
+    /*anecdoteService.getAll()
+    .then(allAnecdotes => props.initialiseAnecdotes(allAnecdotes))*/
+    props.initialiseAnecdotes()
   },[])
 
   return (
