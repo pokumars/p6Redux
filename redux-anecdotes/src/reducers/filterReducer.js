@@ -1,17 +1,17 @@
 const filterReducer = (state= '', action) => {
-  switch (action.type) {
+    switch (action.type) {
     case 'SET_FILTER':
-      return action.filter;
+        return action.filter
     default:
-      return state
-  }
+        return state
+    }
 }
 
 export const filterBy= (value) => {
-  return {
-    type: 'SET_FILTER',
-    filter: value
-  }
+    return {
+        type: 'SET_FILTER',
+        filter: value
+    }
 }
 
-export default filterReducer;
+export default filterReducer

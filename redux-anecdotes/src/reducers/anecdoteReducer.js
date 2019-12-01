@@ -1,48 +1,47 @@
+/* eslint-disable no-case-declarations */
 import anecdoteService from '../services/anecdotes'
 
 
 const sortByVotes= (initiallArr)=> {
-  return initiallArr.sort((a, b) => b.votes -a.votes);
+    return initiallArr.sort((a, b) => b.votes -a.votes)
 }
 
 const anecdoteReducer = (state = [], action) => {
-  //console.log('state now: ', state)
-  //console.log('action', action)
-  //NEW_ANECDOTE
-  switch (action.type) {
+    //console.log('state now: ', state)
+    //console.log('action', action)
+    //NEW_ANECDOTE
+    switch (action.type) {
     case 'INIT_NOTES':
-      return action.data
+        return action.data
     case 'VOTE':
-      const changedAnecdote =action.data
-      const allAnecdotes = state.map(anecdote => 
-        anecdote.id !== changedAnecdote.id? anecdote: changedAnecdote);
+        const changedAnecdote =action.data
+        const allAnecdotes = state.map(anecdote => 
+            anecdote.id !== changedAnecdote.id? anecdote: changedAnecdote)
   
-      return sortByVotes(allAnecdotes);
+        return sortByVotes(allAnecdotes)
     case 'NEW_ANECDOTE':
-      //console.log('new content ---->', action.data.content);
-      return sortByVotes([...state, action.data]);
+        //console.log('new content ---->', action.data.content);
+        return sortByVotes([...state, action.data])
     default:
-      break;
-  }
-  return state
+        break
+    }
+    return state
 }
 
 export const addVote = (id) => {
 
- return async dispatch=> {
-  const anecdoteToChange = await anecdoteService.getAnecdote(id);
-  const changedAnecdote ={
-    ...anecdoteToChange,
-    votes: anecdoteToChange.votes + 1
-  }
-  const upvotedAnecdote = await anecdoteService.vote(changedAnecdote)
-  dispatch({
-    type: 'VOTE',
-    data: upvotedAnecdote
-  })
- }
-  
-  
+    return async dispatch=> {
+        const anecdoteToChange = await anecdoteService.getAnecdote(id)
+        const changedAnecdote ={
+            ...anecdoteToChange,
+            votes: anecdoteToChange.votes + 1
+        }
+        const upvotedAnecdote = await anecdoteService.vote(changedAnecdote)
+        dispatch({
+            type: 'VOTE',
+            data: upvotedAnecdote
+        })
+    }
 }
 /**export const addVote = (id) => {
   
@@ -52,23 +51,23 @@ export const addVote = (id) => {
   }
 } */
 export const createAnecdote = (content) => {
-  return async dispatch => {
-    const newAnecdote = await anecdoteService.createAnecdote(content)
-    dispatch( {
-      type: 'NEW_ANECDOTE',
-      data: newAnecdote
-    })
-  }
+    return async dispatch => {
+        const newAnecdote = await anecdoteService.createAnecdote(content)
+        dispatch( {
+            type: 'NEW_ANECDOTE',
+            data: newAnecdote
+        })
+    }
 }
 
 export const initialiseAnecdotes = () => {
-  return async dispatch => {
-    const anecdotes = await anecdoteService.getAll()
-    dispatch({
-      type: 'INIT_NOTES',
-      data: anecdotes
-    })
-  }
+    return async dispatch => {
+        const anecdotes = await anecdoteService.getAll()
+        dispatch({
+            type: 'INIT_NOTES',
+            data: anecdotes
+        })
+    }
 }
 
 export default anecdoteReducer

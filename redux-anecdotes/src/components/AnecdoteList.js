@@ -1,23 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { addVote } from '../reducers/anecdoteReducer';
-import { createNotification, removeNotification } from '../reducers/notificationReducer'
+import { createNotification, removeNotification, notifyAsync, notify2 } from '../reducers/notificationReducer'
 
 
 
 
 const AnecdoteList = (props) => {
-  const vote = (id) => {
-    const notify =(theMessage) => {
-      props.createNotification(theMessage)
-      setTimeout(() => {
-        props.removeNotification()
-      }, 5000)
-    }
 
+  const vote = (id, content) => {
     props.addVote(id)
-    const selectedAnecdote = props.visibleAnecdotes.find(a => a.id === id);
-    notify(`you voted "${selectedAnecdote.content}"`)
+    props.notifyAsync(`you voted "${content}"`, 5000)
   }
 
   return (
@@ -29,7 +22,7 @@ const AnecdoteList = (props) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote.id, anecdote.content)}>vote</button>
           </div>
         </div>
       )}
@@ -52,8 +45,7 @@ const anecdotesToShow = ({ anecdotes,filter }) => {
 
 const mapDispatchToProps = {
   addVote,
-  createNotification,
-  removeNotification
+  notifyAsync
 }
 
 const mapStateToProps = (state) => {
