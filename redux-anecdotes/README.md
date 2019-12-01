@@ -1,3 +1,12 @@
 ### Tools used/ learnt
 
-axios, json-server react, redux, react-redux
+## learning and/or using
+
+- react 
+- react-redux
+- redux
+- redux-thunk
+- reducers
+- action creators 
+- axios
+- json-server
